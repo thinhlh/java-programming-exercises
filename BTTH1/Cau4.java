@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+/**
+ * Câu số 4 trong bài tập thực hành số 1
+ */
 public class Cau4 {
 
     /**
@@ -20,7 +23,7 @@ public class Cau4 {
         try {
 
             // Đọc giá trị nhập vào từ dòng lệnh
-            System.out.println("Nhap so duong n: ");
+            System.out.print("Nhap so duong n: ");
             n = scanner.nextInt();
 
             // Kiểm tra n có phải số nguyên dương hay không? nếu không thì báo lỗi

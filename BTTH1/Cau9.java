@@ -3,10 +3,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
- * Xử lý dữ liệu liên quan đến chuỗi
- * 
- * @param x chuỗi x
- * @param y chuỗi y
+ * Câu số 9 trong bài tập thực hành số 1
  */
 public class Cau9 {
     // Hàm main để bắt đầu thực hiện chương trình. Ở Lớp này, mỗi câu a,b,c tương
@@ -18,11 +15,11 @@ public class Cau9 {
         System.out.println("Nhap vao 2 chuoi x va y: ");
 
         // Đọc chuỗi x
-        System.out.println("x: ");
+        System.out.print("x: ");
         String x = scanner.nextLine();
 
         // Đọc chuỗi y
-        System.out.println("y: ");
+        System.out.print("y: ");
         String y = scanner.nextLine();
 
         System.out.println("=============================================\n");
@@ -49,7 +46,7 @@ public class Cau9 {
 
         System.out.println("Cau e");
         System.out.println(
-                "Chuoi duoc gop tu 3 ky tu dau tien cua chuoi x va 3 ky tu cuoi cung cua chuoi y" + noiChuoi(x, y));
+                "Chuoi duoc gop tu 3 ky tu dau tien cua chuoi x va 3 ky tu cuoi cung cua chuoi y: " + noiChuoi(x, y));
         System.out.println("=============================================\n");
 
         System.out.println("Cau f");
@@ -61,12 +58,12 @@ public class Cau9 {
                 + (bangNhauIgnoreCase(x, y) ? "Co" : "Khong"));
         System.out.println("=============================================\n");
 
-        System.out.println("Cau g");
+        System.out.println("Cau h");
         System.out.println("Chuoi y co nam trong chuoi x khong? Vi tri nao? "
                 + (contains(y, x) >= 0 ? "Co o vi tri: " + contains(y, x) : "Khong"));
         System.out.println("=============================================\n");
 
-        System.out.println("Cau h");
+        System.out.println("Cau i");
         final Set<Integer> containsIndexes = containsIndexes(y, x);
         System.out.println("Tat ca cac vi tri ma chuoi y nam trong chuoi x: " + (containsIndexes.isEmpty() ? "Khong co"
                 : containsIndexes.toString()));
@@ -93,7 +90,7 @@ public class Cau9 {
      * 
      * @param x
      * @param y
-     * @return String
+     * @return Ba ký tự đầu tiên của chuỗi
      */
     private static String baKyTuDauTienCuaChuoi(String x) {
 
@@ -105,7 +102,7 @@ public class Cau9 {
      * Nếu chuỗi có ít hơn ba ký tự, ta in thẳng chuỗi ra màn hình
      * 
      * @param y
-     * @return String
+     * @return Ba ký tự cuối cùng của chuỗi
      */
     private static String baKyTuCuoiCungCuaChuoi(String y) {
         return y.length() <= 3 ? y : y.substring(y.length() - 3, y.length());
@@ -116,7 +113,7 @@ public class Cau9 {
      * tự thứ 6
      * 
      * @param x
-     * @return char
+     * @return Ký tự thứ 6 của chuỗi
      * @throws Exception
      */
     private static char kyTuThuSauCuaChuoi(String x) throws Exception {
@@ -133,7 +130,7 @@ public class Cau9 {
      * 
      * @param x
      * @param y
-     * @return boolean
+     * @return chuỗi được nối
      */
     private static String noiChuoi(String x, String y) {
         return baKyTuDauTienCuaChuoi(x) + baKyTuCuoiCungCuaChuoi(y);
@@ -144,18 +141,18 @@ public class Cau9 {
      * 
      * @param x
      * @param y
-     * @return boolean
+     * @return chuỗi a có bằng chuỗi b không
      */
     private static boolean bangNhau(String x, String y) {
         return x.equals(y);
     }
 
     /**
-     * Kiểm
+     * Kiểm tra chuỗi a có bằng chuỗi b và không quan tâm hoa thường
      * 
      * @param x
      * @param y
-     * @return boolean
+     * @return chuỗi a có bằng chuỗi b không quan tâm hoa thường
      */
     private static boolean bangNhauIgnoreCase(String x, String y) {
         return x.equalsIgnoreCase(y);
@@ -168,7 +165,7 @@ public class Cau9 {
      * 
      * @param match
      * @param container
-     * @return int
+     * @return vị trí của chuỗi con nằm trong chuỗi cha
      */
     private static int contains(String match, String container) {
         return container.indexOf(match);
@@ -178,7 +175,7 @@ public class Cau9 {
      * 
      * @param match
      * @param container
-     * @return Set<Integer>
+     * @return Tất cả các vị trí xuất hiện của chuỗi con
      * 
      *         Lặp tất cả các kỹ tự của chuỗi, với mỗi ký tự, ta tìm vị trí của
      *         chuỗi con trong chuỗi cha bắt đầu tính từ ký tự đầu tiên ở vị trí
