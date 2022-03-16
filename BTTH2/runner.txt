@@ -1,0 +1,9 @@
+In order to run these file, execute these 2 below commands:
+
+* On window *
+javac -d .\output *.java
+java -classpath .\output .\Main.java
+
+* On Mac/Ubuntu *
+javac -d ./output *.java
+java --classpath ./output ./Main.java
