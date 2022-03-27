@@ -1,6 +1,9 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import helper.StringHelper;
 
 /**
  * The Car object, which extends Vehicle
@@ -19,6 +22,14 @@ class Car extends Vehicle {
     private int numSeats;
     private int numDoors;
 
+    Car() {
+        super();
+    }
+
+    Car(ArrayList<String> propertiesString) {
+        super(propertiesString);
+    }
+
     /**
      * Using polymorphism that this method will be executed when creating Car object
      * and call turn
@@ -29,32 +40,44 @@ class Car extends Vehicle {
     }
 
     @Override
-    protected Vehicle input() {
+    protected Vehicle inputFromScanner() {
         Scanner scanner = new Scanner(System.in);
-        Car car = (Car) super.input();
+        super.inputFromScanner();
 
         do {
             System.out.print("Nhap so mile da di chuyen: ");
-            car.mileage = scanner.nextDouble();
-        } while (car.mileage < 0);
+            this.mileage = scanner.nextDouble();
+        } while (this.mileage < 0);
         scanner.nextLine();
 
         do {
             System.out.print("Nhap bien so xe: ");
-            car.plateNumber = scanner.nextLine();
-        } while (car.plateNumber.length() <= 0);
+            this.plateNumber = scanner.nextLine();
+        } while (this.plateNumber.length() <= 0);
 
         do {
             System.out.print("Nhap so cho ngoi: ");
-            car.numSeats = scanner.nextInt();
-        } while (car.numSeats <= 0);
+            this.numSeats = scanner.nextInt();
+        } while (this.numSeats <= 0);
 
         do {
             System.out.print("Nhap so cua: ");
-            car.numDoors = scanner.nextInt();
-        } while (car.numDoors <= 0);
+            this.numDoors = scanner.nextInt();
+        } while (this.numDoors <= 0);
 
-        return car;
+        return this;
+    }
+
+    @Override
+    protected Vehicle inputFromProperties(ArrayList<String> properties) {
+        super.inputFromProperties(properties);
+
+        this.mileage = Double.parseDouble(properties.get(6));
+        this.plateNumber = properties.get(7);
+        this.numSeats = Integer.parseInt(properties.get(8));
+        this.numDoors = Integer.parseInt(properties.get(9));
+
+        return this;
     }
 
     @Override

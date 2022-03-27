@@ -1,6 +1,9 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import helper.StringHelper;
 
 /**
  * The Truck object, which extends Vehicle
@@ -16,6 +19,14 @@ class Truck extends Vehicle {
     private String plateNumber;
     private double loadCapacity;
 
+    Truck() {
+        super();
+    }
+
+    Truck(ArrayList<String> propertiesString) {
+        super(propertiesString);
+    }
+
     /**
      * Using polymorphism that this method will be executed when creating Truck
      * object and call turn
@@ -26,27 +37,36 @@ class Truck extends Vehicle {
     }
 
     @Override
-    protected Vehicle input() {
+    protected Vehicle inputFromScanner() {
         Scanner scanner = new Scanner(System.in);
-        Truck truck = (Truck) super.input();
+        super.inputFromScanner();
 
         do {
             System.out.print("Nhap so mile da di chuyen: ");
-            truck.mileage = scanner.nextDouble();
-        } while (truck.mileage < 0);
+            this.mileage = scanner.nextDouble();
+        } while (this.mileage < 0);
         scanner.nextLine();
 
         do {
             System.out.print("Nhap bien so xe: ");
-            truck.plateNumber = scanner.nextLine();
-        } while (truck.plateNumber.length() <= 0);
+            this.plateNumber = scanner.nextLine();
+        } while (this.plateNumber.length() <= 0);
 
         do {
             System.out.print("Nhap trong luong khoi hang: ");
-            truck.loadCapacity = scanner.nextDouble();
-        } while (truck.loadCapacity < 0);
+            this.loadCapacity = scanner.nextDouble();
+        } while (this.loadCapacity < 0);
 
-        return truck;
+        return this;
+    }
+
+    @Override
+    protected Vehicle inputFromProperties(ArrayList<String> properties) {
+        super.inputFromProperties(properties);
+        this.mileage = Double.parseDouble(properties.get(6));
+        this.plateNumber = properties.get(7);
+        this.loadCapacity = Double.parseDouble(properties.get(8));
+        return this;
     }
 
     @Override

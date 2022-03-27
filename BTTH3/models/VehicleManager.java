@@ -1,11 +1,14 @@
 package models;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.Scanner;
 import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
 
 /**
  * This is a class where we manage all the vehicles
@@ -13,10 +16,33 @@ import java.util.stream.Stream;
 public class VehicleManager {
     private final ArrayList<Vehicle> vehicles = new ArrayList<>();
 
+    public void inputVehiclesWithFile() {
+        try {
+            FileReader reader = new FileReader("vehicles.txt");
+            BufferedReader bufferedReader = new BufferedReader(reader);
+
+            // Read every line from buffer reader and create a new vehicle
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                Vehicle vehicle = VehicleFactory.createVehicleWithInputString(line);
+                vehicles.add(vehicle);
+            }
+
+            bufferedReader.close();
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Khong tim thay file.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Khong the doc duoc file.");
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Nhap danh sach cac xe
      */
-    public void inputVehicles() {
+    public void inputVehiclesWithScanner() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Nhap vao so luong cac xe: ");
         int numOfVehicles = scanner.nextInt();
@@ -121,16 +147,16 @@ public class VehicleManager {
         switch (option) {
             case 1:
                 System.out.println("### Xe Dap - Bicycle ###");
-                return VehicleFactory.createVehicle(VehicleType.Bicycle);
+                return VehicleFactory.createVehicleFromWithScanner(VehicleType.Bicycle);
             case 2:
                 System.out.println("### Xe May - Bike ###");
-                return VehicleFactory.createVehicle(VehicleType.Bike);
+                return VehicleFactory.createVehicleFromWithScanner(VehicleType.Bike);
             case 3:
                 System.out.println("### Xe Hoi - Car ###");
-                return VehicleFactory.createVehicle(VehicleType.Car);
+                return VehicleFactory.createVehicleFromWithScanner(VehicleType.Car);
             case 4:
                 System.out.println("### Xe Tai - Truck ###");
-                return VehicleFactory.createVehicle(VehicleType.Truck);
+                return VehicleFactory.createVehicleFromWithScanner(VehicleType.Truck);
             default:
                 return null;
         }

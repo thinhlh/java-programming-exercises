@@ -1,8 +1,11 @@
 package models;
 
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
+import helper.StringHelper;
 import safety.ValidatedModel;
 
 /**
@@ -28,7 +31,18 @@ abstract class Vehicle {
      * Calling input function when started
      */
     protected Vehicle() {
-        input();
+        inputFromScanner();
+    }
+
+    /**
+     * This will instantiate the vehicle from it's input string
+     * 
+     * Every element in the property string will have this pattern [property]
+     * 
+     * @param propertiesString
+     */
+    protected Vehicle(ArrayList<String> propertiesString) {
+        inputFromProperties(propertiesString);
     }
 
     public abstract void turn();
@@ -36,11 +50,11 @@ abstract class Vehicle {
     public abstract Double getMileage();
 
     /**
-     * This base input for all vehicles
+     * This base input for all vehicles using scanner object
      * 
-     * @return
+     * @return Vehicle
      */
-    protected Vehicle input() {
+    protected Vehicle inputFromScanner() {
         Scanner scanner = new Scanner(System.in);
 
         do {
@@ -71,6 +85,16 @@ abstract class Vehicle {
             this.weight = scanner.nextInt();
         } while (this.weight < 0);
 
+        return this;
+    }
+
+    protected Vehicle inputFromProperties(ArrayList<String> properties) {
+        this.model = new ValidatedModel(properties.get(0));
+        this.color = properties.get(1);
+        this.year = Integer.parseInt(properties.get(2));
+        this.numWheels = Integer.parseInt(properties.get(3));
+        this.price = Double.parseDouble(properties.get(4));
+        this.weight = Double.parseDouble(properties.get(5));
         return this;
     }
 

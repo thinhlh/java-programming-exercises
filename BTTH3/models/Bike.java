@@ -1,6 +1,9 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import helper.StringHelper;
 
 /**
  * The Bike object, which extends Vehicle
@@ -17,28 +20,47 @@ class Bike extends Vehicle {
     private String plateNumber;
     private int numSeats;
 
+    Bike() {
+        super();
+    }
+
+    Bike(ArrayList<String> propertiesString) {
+        super(propertiesString);
+    }
+
     @Override
-    public Vehicle input() {
+    public Vehicle inputFromScanner() {
         Scanner scanner = new Scanner(System.in);
-        Bike bike = (Bike) super.input();
+        super.inputFromScanner();
 
         do {
             System.out.print("Nhap so mile da di chuyen: ");
-            bike.mileage = scanner.nextDouble();
-        } while (bike.mileage < 0);
+            this.mileage = scanner.nextDouble();
+        } while (this.mileage < 0);
         scanner.nextLine();
 
         do {
             System.out.print("Nhap bien so xe: ");
-            bike.plateNumber = scanner.nextLine();
-        } while (bike.plateNumber.length() <= 0);
+            this.plateNumber = scanner.nextLine();
+        } while (this.plateNumber.length() <= 0);
 
         do {
             System.out.print("Nhap so cho ngoi: ");
-            bike.numSeats = scanner.nextInt();
-        } while (bike.numSeats <= 0);
+            this.numSeats = scanner.nextInt();
+        } while (this.numSeats <= 0);
 
-        return bike;
+        return this;
+    }
+
+    @Override
+    protected Vehicle inputFromProperties(ArrayList<String> properties) {
+        super.inputFromProperties(properties);
+
+        this.mileage = Double.parseDouble(properties.get(6));
+        this.plateNumber = properties.get(7);
+        this.numSeats = Integer.parseInt(properties.get(8));
+
+        return this;
     }
 
     @Override
