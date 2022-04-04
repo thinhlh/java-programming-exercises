@@ -1,11 +1,6 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.Scanner;
-
-import exceptions.InvalidFieldException;
-import safety.ValidatedDouble;
-import safety.ValidatedInteger;
 
 /**
  * The Bike object, which extends Vehicle
@@ -17,99 +12,33 @@ import safety.ValidatedInteger;
  * @property numSeats
  */
 
-class Bike extends Vehicle implements IInstallable {
+class Bike extends Vehicle {
     private double mileage;
     private String plateNumber;
     private int numSeats;
 
-    Bike() {
-        super();
-    }
-
-    Bike(ArrayList<String> propertiesString) {
-        super(propertiesString);
-    }
-
     @Override
-    public Vehicle inputFromScanner() {
+    public Vehicle input() {
         Scanner scanner = new Scanner(System.in);
-        super.inputFromScanner();
+        Bike bike = (Bike) super.input();
 
         do {
-            try {
-
-                System.out.print("Nhap so mile da di chuyen: ");
-                this.mileage = new ValidatedDouble.Builder()
-                        .setLowerBound(0.0)
-                        .build(scanner)
-                        .getValue();
-                break;
-            } catch (InvalidFieldException e) {
-                System.out.println(e.getMessage());
-            } catch (Exception e) {
-                System.out.println("So mile phai la so nguyen duong");
-            }
-        } while (true);
+            System.out.print("Nhap so mile da di chuyen: ");
+            bike.mileage = scanner.nextDouble();
+        } while (bike.mileage < 0);
         scanner.nextLine();
 
         do {
-            try {
-                System.out.print("Nhap bien so xe: ");
-                this.plateNumber = scanner.nextLine();
-
-                if (this.plateNumber.length() <= 0)
-                    throw new InvalidFieldException("Bien so xe phai toi thieu 1 ki tu");
-                break;
-            } catch (InvalidFieldException e) {
-                System.out.println("Bien so xe phai co toi thieu 1 ki tu");
-            }
-        } while (true);
+            System.out.print("Nhap bien so xe: ");
+            bike.plateNumber = scanner.nextLine();
+        } while (bike.plateNumber.length() <= 0);
 
         do {
-            try {
-                System.out.print("Nhap so cho ngoi: ");
-                this.numSeats = new ValidatedInteger.Builder()
-                        .setLowerBound(0)
-                        .build(scanner.nextInt())
-                        .getValue();
+            System.out.print("Nhap so cho ngoi: ");
+            bike.numSeats = scanner.nextInt();
+        } while (bike.numSeats <= 0);
 
-                if (this.numSeats <= 0)
-                    throw new InvalidFieldException("So cho ngoi phai lon hon 0");
-
-                break;
-            } catch (InvalidFieldException e) {
-                System.out.println(e.getMessage());
-            }
-
-        } while (true);
-
-        return this;
-    }
-
-    @Override
-    protected Vehicle inputFromProperties(ArrayList<String> properties) {
-        super.inputFromProperties(properties);
-
-        try {
-            this.mileage = new ValidatedDouble.Builder()
-                    .build(Double.parseDouble(properties.get(6)))
-                    .getValue();
-        } catch (NumberFormatException | InvalidFieldException e) {
-            System.out.println("So mile phai la so nguyen duong");
-            e.printStackTrace();
-        }
-        this.plateNumber = properties.get(7);
-        try {
-            this.numSeats = new ValidatedInteger.Builder()
-                    .setLowerBound(0)
-                    .build(Integer.parseInt(properties.get(8)))
-                    .getValue();
-        } catch (NumberFormatException | InvalidFieldException e) {
-            System.out.println("So cho ngoi phai lon hon 0");
-            e.printStackTrace();
-        }
-
-        return this;
+        return bike;
     }
 
     @Override
@@ -118,8 +47,7 @@ class Bike extends Vehicle implements IInstallable {
                 ", " + super.toString()
                 + ", so mile da di chuyen= " + mileage
                 + ", bien so xe= " + plateNumber
-                + ", so cho ngoi= " + numSeats
-                + ", so tien tra sau= " + this.getPayOff();
+                + ", so cho ngoi= " + numSeats;
     }
 
     /**
@@ -157,11 +85,5 @@ class Bike extends Vehicle implements IInstallable {
 
     public void setNumSeats(int numSeats) {
         this.numSeats = numSeats;
-    }
-
-    @Override
-    public double getPayOff() {
-        var payOffPercentage = this.year >= 2000 ? 70.0 / 100 : 75.0 / 100;
-        return this.price * payOffPercentage;
     }
 }

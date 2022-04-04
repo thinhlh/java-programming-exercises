@@ -1,10 +1,6 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.Scanner;
-
-import exceptions.InvalidFieldException;
-import safety.ValidatedDouble;
 
 /**
  * The bicycle object, which extends Vehicle
@@ -17,14 +13,6 @@ import safety.ValidatedDouble;
 class Bicycle extends Vehicle {
     private double saddleSeatHeight;
 
-    Bicycle() {
-        super();
-    }
-
-    Bicycle(ArrayList<String> propertiesString) {
-        super(propertiesString);
-    }
-
     /**
      * Using polymorphism that this method will be executed when creating Bicycle
      * object and call turn
@@ -35,42 +23,16 @@ class Bicycle extends Vehicle {
     }
 
     @Override
-    protected Vehicle inputFromScanner() {
+    protected Vehicle input() {
         Scanner scanner = new Scanner(System.in);
-        super.inputFromScanner();
+        Bicycle bicycle = (Bicycle) super.input();
 
         do {
-            try {
-                System.out.print("Nhap chieu cao yen xe: ");
-                this.saddleSeatHeight = new ValidatedDouble.Builder()
-                        .setLowerBound(0.0)
-                        .build(scanner)
-                        .getValue();
-                break;
-            } catch (InvalidFieldException e) {
-                System.out.println("Chieu cao yen xe phai lon hon 0");
-            } catch (Exception e) {
-                System.out.println("Chieu cao yen xe phai la so nguyen duong");
-            }
-        } while (true);
+            System.out.print("Nhap chieu cao yen xe: ");
+            bicycle.saddleSeatHeight = scanner.nextDouble();
+        } while (bicycle.saddleSeatHeight <= 0);
 
-        return this;
-    }
-
-    @Override
-    protected Vehicle inputFromProperties(ArrayList<String> properties) {
-        super.inputFromProperties(properties);
-
-        try {
-            this.saddleSeatHeight = new ValidatedDouble.Builder()
-                    .setLowerBound(0.0)
-                    .build(Double.parseDouble(properties.get(6)))
-                    .getValue();
-        } catch (NumberFormatException | InvalidFieldException e) {
-            System.out.println("Chieu cao yen xe phai la so nguyen duong");
-        }
-
-        return this;
+        return bicycle;
     }
 
     @Override
