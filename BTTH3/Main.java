@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import models.VehicleManager;
@@ -56,11 +57,28 @@ public class Main {
         /** Process the option input and perform valid calculation */
         private static void processOption(int option) {
                 switch (option) {
-                        case 1:
+                        case 1: {
                                 System.out.println(
                                                 "=================================   NHAP VAO CAC XE   =====================================");
-                                vehicleManager.inputVehiclesWithFile();
+                                Boolean isFromFile = null;
+                                do {
+                                        System.out.print(
+                                                        "Chon cach them cac xe (0: Tu file vehicles.txt, 1: Nhap tay): ");
+                                        try {
+                                                var inputOption = scanner.nextInt();
+                                                if (inputOption == 0 || inputOption == 1) {
+                                                        isFromFile = inputOption == 0;
+                                                        if (isFromFile)
+                                                                vehicleManager.inputVehiclesWithFile();
+                                                        else
+                                                                vehicleManager.inputVehiclesWithScanner();
+                                                        break;
+                                                }
+                                        } catch (Exception e) {
+                                        }
+                                } while (isFromFile != null);
                                 break;
+                        }
                         case 2:
                                 System.out.println(
                                                 "=================================   DANH SACH CAC XE  =====================================");

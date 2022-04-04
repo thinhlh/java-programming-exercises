@@ -3,7 +3,9 @@ package models;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import helper.StringHelper;
+import exceptions.InvalidFieldException;
+import safety.ValidatedDouble;
+import safety.ValidatedInteger;
 
 /**
  * The Truck object, which extends Vehicle
@@ -42,20 +44,51 @@ class Truck extends Vehicle {
         super.inputFromScanner();
 
         do {
-            System.out.print("Nhap so mile da di chuyen: ");
-            this.mileage = scanner.nextDouble();
-        } while (this.mileage < 0);
+            try {
+
+                System.out.print("Nhap so mile da di chuyen: ");
+                this.mileage = new ValidatedDouble.Builder()
+                        .setLowerBound(0.0)
+                        .build(scanner)
+                        .getValue();
+
+                break;
+            } catch (InvalidFieldException e) {
+                System.out.println("So mile phai lon hon 0");
+            } catch (Exception e) {
+                System.out.println("So mile phai la so nguyen duong");
+            }
+        } while (true);
         scanner.nextLine();
 
         do {
-            System.out.print("Nhap bien so xe: ");
-            this.plateNumber = scanner.nextLine();
-        } while (this.plateNumber.length() <= 0);
+            try {
+                System.out.print("Nhap bien so xe: ");
+                this.plateNumber = scanner.nextLine();
+
+                if (this.plateNumber.length() <= 0)
+                    throw new InvalidFieldException("Bien so xe phai toi thieu 1 ki tu");
+                break;
+            } catch (InvalidFieldException e) {
+                System.out.println("Bien so xe phai co toi thieu 1 ki tu");
+            }
+        } while (true);
 
         do {
-            System.out.print("Nhap trong luong khoi hang: ");
-            this.loadCapacity = scanner.nextDouble();
-        } while (this.loadCapacity < 0);
+            try {
+                System.out.print("Nhap trong luong khoi hang: ");
+                this.loadCapacity = new ValidatedDouble.Builder()
+                        .setLowerBound(0.0)
+                        .build(scanner)
+                        .getValue();
+                break;
+            } catch (InvalidFieldException e) {
+                System.out.println("Trong luong phai lon hon 0");
+            } catch (Exception e) {
+                System.out.println("Trong luong khoi hang phai la so nguyen duong");
+            }
+
+        } while (true);
 
         return this;
     }
@@ -63,9 +96,25 @@ class Truck extends Vehicle {
     @Override
     protected Vehicle inputFromProperties(ArrayList<String> properties) {
         super.inputFromProperties(properties);
-        this.mileage = Double.parseDouble(properties.get(6));
+        try {
+            this.mileage = new ValidatedDouble.Builder()
+                    .setLowerBound(0.0)
+                    .build(Double.parseDouble(properties.get(6)))
+                    .getValue();
+        } catch (NumberFormatException | InvalidFieldException e) {
+            System.out.println("So mile phai lon hon 0");
+            e.printStackTrace();
+        }
         this.plateNumber = properties.get(7);
-        this.loadCapacity = Double.parseDouble(properties.get(8));
+        try {
+            this.loadCapacity = new ValidatedDouble.Builder()
+                    .setLowerBound(0.0)
+                    .build(Double.parseDouble(properties.get(8)))
+                    .getValue();
+        } catch (NumberFormatException | InvalidFieldException e) {
+            System.out.println("Trong luong phai lon hon 0");
+            e.printStackTrace();
+        }
         return this;
     }
 

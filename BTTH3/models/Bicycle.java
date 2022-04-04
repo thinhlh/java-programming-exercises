@@ -3,7 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import helper.StringHelper;
+import exceptions.InvalidFieldException;
+import safety.ValidatedDouble;
 
 /**
  * The bicycle object, which extends Vehicle
@@ -39,9 +40,19 @@ class Bicycle extends Vehicle {
         super.inputFromScanner();
 
         do {
-            System.out.print("Nhap chieu cao yen xe: ");
-            this.saddleSeatHeight = scanner.nextDouble();
-        } while (this.saddleSeatHeight <= 0);
+            try {
+                System.out.print("Nhap chieu cao yen xe: ");
+                this.saddleSeatHeight = new ValidatedDouble.Builder()
+                        .setLowerBound(0.0)
+                        .build(scanner)
+                        .getValue();
+                break;
+            } catch (InvalidFieldException e) {
+                System.out.println("Chieu cao yen xe phai lon hon 0");
+            } catch (Exception e) {
+                System.out.println("Chieu cao yen xe phai la so nguyen duong");
+            }
+        } while (true);
 
         return this;
     }
@@ -50,7 +61,14 @@ class Bicycle extends Vehicle {
     protected Vehicle inputFromProperties(ArrayList<String> properties) {
         super.inputFromProperties(properties);
 
-        this.saddleSeatHeight = Double.parseDouble(properties.get(6));
+        try {
+            this.saddleSeatHeight = new ValidatedDouble.Builder()
+                    .setLowerBound(0.0)
+                    .build(Double.parseDouble(properties.get(6)))
+                    .getValue();
+        } catch (NumberFormatException | InvalidFieldException e) {
+            System.out.println("Chieu cao yen xe phai la so nguyen duong");
+        }
 
         return this;
     }

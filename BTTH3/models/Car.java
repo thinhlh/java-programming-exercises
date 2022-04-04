@@ -3,7 +3,10 @@ package models;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import helper.StringHelper;
+import exceptions.InvalidFieldException;
+import safety.ValidatedDouble;
+import safety.ValidatedInteger;
+import safety.ValidatedModel;
 
 /**
  * The Car object, which extends Vehicle
@@ -45,25 +48,69 @@ class Car extends Vehicle {
         super.inputFromScanner();
 
         do {
-            System.out.print("Nhap so mile da di chuyen: ");
-            this.mileage = scanner.nextDouble();
-        } while (this.mileage < 0);
+            try {
+
+                System.out.print("Nhap so mile da di chuyen: ");
+                this.mileage = new ValidatedDouble.Builder()
+                        .setLowerBound(0.0)
+                        .build(scanner)
+                        .getValue();
+
+                break;
+            } catch (InvalidFieldException e) {
+                System.out.println("So mile phai lon hon 0");
+            } catch (Exception e) {
+                System.out.println("So mile phai la so nguyen duong");
+            }
+        } while (true);
         scanner.nextLine();
 
         do {
-            System.out.print("Nhap bien so xe: ");
-            this.plateNumber = scanner.nextLine();
-        } while (this.plateNumber.length() <= 0);
+            try {
+                System.out.print("Nhap bien so xe: ");
+                this.plateNumber = scanner.nextLine();
+
+                if (this.plateNumber.length() <= 0)
+                    throw new InvalidFieldException("Bien so xe phai toi thieu 1 ki tu");
+                break;
+            } catch (InvalidFieldException e) {
+                System.out.println("Bien so xe phai co toi thieu 1 ki tu");
+            }
+        } while (true);
 
         do {
-            System.out.print("Nhap so cho ngoi: ");
-            this.numSeats = scanner.nextInt();
-        } while (this.numSeats <= 0);
+            try {
+                System.out.print("Nhap so cho ngoi: ");
+                this.numSeats = new ValidatedInteger.Builder()
+                        .setLowerBound(0)
+                        .build(scanner)
+                        .getValue();
+
+                break;
+            } catch (InvalidFieldException e) {
+                System.out.println("So cho ngoi phai lon hon 0");
+            } catch (Exception e) {
+                System.out.println("So cho ngoi phai la so nguyen duong");
+            }
+
+        } while (true);
 
         do {
-            System.out.print("Nhap so cua: ");
-            this.numDoors = scanner.nextInt();
-        } while (this.numDoors <= 0);
+            try {
+                System.out.print("Nhap so cua: ");
+                this.numDoors = new ValidatedInteger.Builder()
+                        .setLowerBound(0)
+                        .build(scanner)
+                        .getValue();
+
+                break;
+            } catch (InvalidFieldException e) {
+                System.out.println("So cua phai lon hon 0");
+            } catch (Exception e) {
+                System.out.println("So cua phai la so nguyen duong");
+            }
+
+        } while (true);
 
         return this;
     }
@@ -72,10 +119,34 @@ class Car extends Vehicle {
     protected Vehicle inputFromProperties(ArrayList<String> properties) {
         super.inputFromProperties(properties);
 
-        this.mileage = Double.parseDouble(properties.get(6));
+        try {
+            this.mileage = new ValidatedDouble.Builder()
+                    .setLowerBound(0.0)
+                    .build(Double.parseDouble(properties.get(6)))
+                    .getValue();
+        } catch (NumberFormatException | InvalidFieldException e) {
+            System.out.println("So mile phai la so nguyen duong");
+            e.printStackTrace();
+        }
         this.plateNumber = properties.get(7);
-        this.numSeats = Integer.parseInt(properties.get(8));
-        this.numDoors = Integer.parseInt(properties.get(9));
+        try {
+            this.numSeats = new ValidatedInteger.Builder()
+                    .setLowerBound(0)
+                    .build(Integer.parseInt(properties.get(8)))
+                    .getValue();
+        } catch (NumberFormatException | InvalidFieldException e) {
+            System.out.println("So cho ngoi phai la so nguyen duong");
+            e.printStackTrace();
+        }
+        try {
+            this.numDoors = new ValidatedInteger.Builder()
+                    .setLowerBound(0)
+                    .build(Integer.parseInt(properties.get(9)))
+                    .getValue();
+        } catch (NumberFormatException | InvalidFieldException e) {
+            System.out.println("So cua phai la so nguyen duong");
+            e.printStackTrace();
+        }
 
         return this;
     }
