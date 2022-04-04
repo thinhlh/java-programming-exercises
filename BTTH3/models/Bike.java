@@ -17,7 +17,7 @@ import safety.ValidatedInteger;
  * @property numSeats
  */
 
-class Bike extends Vehicle {
+class Bike extends Vehicle implements IInstallable {
     private double mileage;
     private String plateNumber;
     private int numSeats;
@@ -118,7 +118,8 @@ class Bike extends Vehicle {
                 ", " + super.toString()
                 + ", so mile da di chuyen= " + mileage
                 + ", bien so xe= " + plateNumber
-                + ", so cho ngoi= " + numSeats;
+                + ", so cho ngoi= " + numSeats
+                + ", so tien tra sau= " + this.getPayOff();
     }
 
     /**
@@ -156,5 +157,11 @@ class Bike extends Vehicle {
 
     public void setNumSeats(int numSeats) {
         this.numSeats = numSeats;
+    }
+
+    @Override
+    public double getPayOff() {
+        var payOffPercentage = this.year >= 2000 ? 70.0 / 100 : 75.0 / 100;
+        return this.price * payOffPercentage;
     }
 }

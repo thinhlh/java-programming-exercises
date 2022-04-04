@@ -2,6 +2,8 @@ package safety;
 
 import java.util.regex.Pattern;
 
+import exceptions.InvalidFieldException;
+
 /**
  * This class is a validated model and will be used to describe the name of the
  * vehicle model
@@ -19,11 +21,12 @@ public class ValidatedModel {
      */
     final String value;
 
-    public ValidatedModel(String value) {
+    public ValidatedModel(String value) throws InvalidFieldException {
         if (isValid(value)) {
             this.value = value;
         } else {
             this.value = null;
+            throw new InvalidFieldException("Ten model khong hop le");
         }
     }
 

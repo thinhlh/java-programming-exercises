@@ -1,11 +1,14 @@
 package models.devices;
 
-interface IDeviceControllable {
-    void turnVolumeUp();
-
-    void turnVolumeDown();
-
+/**
+ * This interface describe the methods that a device can do
+ */
+public interface IDeviceControllable {
     void turnOn();
 
     void turnOff();
+
+    void volumeUp();
+
+    void volumeDown();
 }

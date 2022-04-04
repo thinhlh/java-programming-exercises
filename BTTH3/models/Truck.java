@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import exceptions.InvalidFieldException;
+import models.devices.DVDPlayer;
+import models.devices.Device;
+import models.devices.LCDTelevision;
 import safety.ValidatedDouble;
-import safety.ValidatedInteger;
 
 /**
  * The Truck object, which extends Vehicle
@@ -16,17 +18,32 @@ import safety.ValidatedInteger;
  * @property plateNumber
  * @property loadCapacity
  */
-class Truck extends Vehicle {
+class Truck extends Vehicle implements IVehicleControllable, IInstallable {
     private double mileage;
     private String plateNumber;
     private double loadCapacity;
 
+    private Device television;
+    private Device player;
+
     Truck() {
         super();
+        try {
+            television = new LCDTelevision("TruckLCD");
+            player = new DVDPlayer("TruckDVD");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     Truck(ArrayList<String> propertiesString) {
         super(propertiesString);
+        try {
+            television = new LCDTelevision("TruckLCD");
+            player = new DVDPlayer("TruckDVD");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -45,7 +62,6 @@ class Truck extends Vehicle {
 
         do {
             try {
-
                 System.out.print("Nhap so mile da di chuyen: ");
                 this.mileage = new ValidatedDouble.Builder()
                         .setLowerBound(0.0)
@@ -124,7 +140,8 @@ class Truck extends Vehicle {
                 ", " + super.toString()
                 + ", so mile da di chuyen= " + mileage
                 + ", bien so xe= " + plateNumber
-                + ", trong luong hang hoa= " + loadCapacity;
+                + ", trong luong hang hoa= " + loadCapacity
+                + ", so tien tra sau= " + this.getPayOff();
     }
 
     /**
@@ -165,5 +182,25 @@ class Truck extends Vehicle {
 
     public void setLoadCapacity(double loadCapacity) {
         this.loadCapacity = loadCapacity;
+    }
+
+    @Override
+    public void start() {
+        System.out.println("Truck starts");
+        television.turnOn();
+        player.turnOn();
+    }
+
+    @Override
+    public void stop() {
+        System.out.println("Truck stops");
+        television.turnOff();
+        player.turnOff();
+    }
+
+    @Override
+    public double getPayOff() {
+        var payOffPercentage = (loadCapacity <= 5) ? 50.0 / 100 : 40.0 / 100;
+        return this.price * payOffPercentage;
     }
 }

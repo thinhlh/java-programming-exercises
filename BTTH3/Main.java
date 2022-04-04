@@ -30,7 +30,7 @@ public class Main {
                         System.out.println(
                                         "|(2) xuat danh sach cac xe                                                                 |");
                         System.out.println(
-                                        "|(3) xuat ra cac xe moi san xuat                                                            |");
+                                        "|(3) xuat ra cac xe moi san xuat                                                           |");
                         System.out.println(
                                         "|(4) tinh tong gia tri cac xe                                                              |");
                         System.out.println(
@@ -75,6 +75,7 @@ public class Main {
                                                         break;
                                                 }
                                         } catch (Exception e) {
+                                                scanner.nextLine();
                                         }
                                 } while (isFromFile != null);
                                 break;

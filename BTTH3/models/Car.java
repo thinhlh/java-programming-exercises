@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import exceptions.InvalidFieldException;
+import models.devices.DVDPlayer;
+import models.devices.LCDTelevision;
 import safety.ValidatedDouble;
 import safety.ValidatedInteger;
-import safety.ValidatedModel;
 
 /**
  * The Car object, which extends Vehicle
@@ -19,18 +20,30 @@ import safety.ValidatedModel;
  * @property numDoors
  */
 
-class Car extends Vehicle {
+class Car extends Vehicle implements IVehicleControllable, IInstallable {
     private double mileage;
     private String plateNumber;
     private int numSeats;
     private int numDoors;
 
+    private LCDTelevision television;
+    private DVDPlayer player;
+
     Car() {
         super();
+        try {
+            television = new LCDTelevision("CarLCD");
+            player = new DVDPlayer("CarDVD");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    Car(ArrayList<String> propertiesString) {
+    Car(ArrayList<String> propertiesString) throws InvalidFieldException, Exception {
         super(propertiesString);
+
+        television = new LCDTelevision("CarLCD");
+        player = new DVDPlayer("CarDVD");
     }
 
     /**
@@ -49,7 +62,6 @@ class Car extends Vehicle {
 
         do {
             try {
-
                 System.out.print("Nhap so mile da di chuyen: ");
                 this.mileage = new ValidatedDouble.Builder()
                         .setLowerBound(0.0)
@@ -102,8 +114,11 @@ class Car extends Vehicle {
                         .setLowerBound(0)
                         .build(scanner)
                         .getValue();
-
-                break;
+                if (this.numDoors == 2 || this.numDoors == 4) {
+                    break;
+                } else {
+                    throw new InvalidFieldException("So cua phai la 2 hoac 4");
+                }
             } catch (InvalidFieldException e) {
                 System.out.println("So cua phai lon hon 0");
             } catch (Exception e) {
@@ -143,8 +158,13 @@ class Car extends Vehicle {
                     .setLowerBound(0)
                     .build(Integer.parseInt(properties.get(9)))
                     .getValue();
+
+            if (this.numDoors == 2 || this.numDoors == 4) {
+            } else {
+                throw new InvalidFieldException("So cua phai la 2 hoac 4");
+            }
         } catch (NumberFormatException | InvalidFieldException e) {
-            System.out.println("So cua phai la so nguyen duong");
+            System.out.println("So cua phai la 2 hoac 4");
             e.printStackTrace();
         }
 
@@ -158,7 +178,8 @@ class Car extends Vehicle {
                 + ", so mile da di chuyen= " + mileage
                 + ", bien so xe= " + plateNumber
                 + ", so cho ngoi= " + numSeats
-                + ", so cua= " + numDoors;
+                + ", so cua= " + numDoors
+                + ", so tien tra sau= " + this.getPayOff();
 
     }
 
@@ -196,5 +217,25 @@ class Car extends Vehicle {
 
     public void setNumDoors(int numDoors) {
         this.numDoors = numDoors;
+    }
+
+    @Override
+    public void start() {
+        System.out.println("Car starts");
+        television.turnOn();
+        player.turnOn();
+    }
+
+    @Override
+    public void stop() {
+        System.out.println("Car stops");
+        television.turnOff();
+        player.turnOff();
+    }
+
+    @Override
+    public double getPayOff() {
+        var payOffPercentage = this.numDoors == 2 ? 60.0 / 100 : 65.0 / 100;
+        return this.price * payOffPercentage;
     }
 }

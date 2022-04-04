@@ -76,10 +76,9 @@ abstract class Vehicle {
         System.out.print("Nhap mau cua xe: ");
         this.color = scanner.nextLine();
 
-        System.out.print("Nhap nam san xuat: ");
-
         do {
             try {
+                System.out.print("Nhap nam san xuat: ");
                 this.year = new ValidatedInteger.Builder()
                         .setLowerBound(1990)
                         .setUpperBound(Year.now().getValue())
@@ -95,6 +94,7 @@ abstract class Vehicle {
 
         do {
             try {
+                System.out.print("Nhap so banh xe: ");
                 this.numWheels = new ValidatedInteger.Builder()
                         .setLowerBound(1)
                         .build(scanner)
@@ -143,7 +143,11 @@ abstract class Vehicle {
     }
 
     protected Vehicle inputFromProperties(ArrayList<String> properties) {
-        this.model = new ValidatedModel(properties.get(0));
+        try {
+            this.model = new ValidatedModel(properties.get(0));
+        } catch (InvalidFieldException e1) {
+            e1.printStackTrace();
+        }
         this.color = properties.get(1);
         try {
             this.year = new ValidatedInteger.Builder()
