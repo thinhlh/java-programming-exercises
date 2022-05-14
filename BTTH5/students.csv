@@ -1,0 +1,17 @@
+student_id,first_name,last_name,dob,department,entrance_date,graduate_date,credits,score
+M19010,Tom,Smith,2000-06-06,Computer Science,2020-09-01,,100,9.45
+N20020,Alice,Berry,2001-07-07,Software Engineering,2021-09-01,,60,5.01
+O21001,Matt,Berry,2001-12-27,Software Engineering,2022-09-01,,50,8.02
+M22040,Pat,Cruise,2001-11-26,Computer Engineering,2022-09-01,,20,4.02
+M22041,Pat,Cruise,2001-11-26,Information Security,2022-09-01,,40,6.02
+M22043,Bill,Jerry,2001-11-26,Computer Networks and Communication,2022-11-04,,30,8.02
+M19011,Tom,Smith,2000-06-06,Computer Science,2020-09-01,,100,7.45
+M19012,Sony,Sam,2000-06-06,Information Security,2020-09-01,,110,7.65
+M19013,Noah,Jerry,2000-06-06,Computer Science,2020-09-01,,112,8.55
+N20022,Juliett,Heaton,2001-07-07,Software Engineering,2021-09-01,,60,7.71
+N20023,Julia,Robert,2001-11-27,Software Engineering,2021-09-01,,60,3.21
+N20012,Jenifer,Berry,2001-11-17,Information Security,2021-09-01,,60,6.36
+O21021,Kim,Peace,2001-12-22,Software Engineering,2022-09-01,,30,6.02
+O21031,Sara,Clark,2001-12-02,Software Engineering,2022-09-01,,15,3.02
+O21011,Will,Berry,2001-05-11,Software Engineering,2022-09-01,,50,10.00
+O21014,Nick,Brandley,2001-12-07,Computer Science,2022-09-01,,10,5.02
