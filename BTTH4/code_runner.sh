@@ -1,0 +1,1 @@
+javac -d ./output *.java ; java -classpath ./output ./Main.java
