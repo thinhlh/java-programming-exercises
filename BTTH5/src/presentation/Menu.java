@@ -45,6 +45,7 @@ public class Menu {
 
                         System.out.print("Lua chon: ");
                         option = scanner.nextInt();
+                        scanner.nextLine();
 
                         System.out.println();
                         processOption(option);
@@ -102,9 +103,7 @@ public class Menu {
                                 System.out.println("Ma sinh vien phai co 6 ky tu");
                         } else {
                                 break;
-
                         }
-
                 } while (true);
 
                 return studentId;
